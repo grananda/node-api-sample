@@ -14,7 +14,8 @@ class IdeaController {
   }
 
   async getAll(req, res) {
-    const entities = await _ideaService.getAll();
+    const { pageSize, pageNum } = req.query;
+    const entities = await _ideaService.getAll(pageSize, pageNum);
 
     return res.send(entities);
   }
