@@ -1,7 +1,7 @@
 let _ideaService = null;
 
 class IdeaController {
-  constructor(IdeaService) {
+  constructor({ IdeaService }) {
     _ideaService = IdeaService;
   }
 
