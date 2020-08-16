@@ -27,7 +27,7 @@ class IdeaService extends BaseService {
       throw error;
     }
 
-    const idea = await _ideaRepository.get(id);
+    const idea = await this.repository.get(id);
 
     if (!idea) {
       const error = new Error();
@@ -39,7 +39,7 @@ class IdeaService extends BaseService {
 
     idea.upvotes.push(true);
 
-    return await _ideaRepository.update(id, { upvotes: idea.upvotes });
+    return await this.repository.update(id, { upvotes: idea.upvotes });
   }
 
   async downvoteIdea(id) {
@@ -51,7 +51,7 @@ class IdeaService extends BaseService {
       throw error;
     }
 
-    const idea = await _ideaRepository.get(id);
+    const idea = await this.repository.get(id);
 
     if (!idea) {
       const error = new Error();
@@ -63,7 +63,7 @@ class IdeaService extends BaseService {
 
     idea.upvotes.push(false);
 
-    return await _ideaRepository.update(id, { upvotes: idea.upvotes });
+    return await this.repository.update(id, { upvotes: idea.upvotes });
   }
 }
 

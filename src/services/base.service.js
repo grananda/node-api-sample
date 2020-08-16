@@ -46,11 +46,13 @@ class BaseService {
   }
 
   async delete(id) {
-    const error = new Error();
-    error.status = 400;
-    error.message = "ID must be provided";
+    if (!id) {
+      const error = new Error();
+      error.status = 400;
+      error.message = "ID must be provided";
 
-    throw error;
+      throw error;
+    }
 
     return await this.repository.delete(id);
   }

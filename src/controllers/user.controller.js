@@ -10,7 +10,7 @@ class UserController {
 
     const entity = await _userService.get(id);
 
-    return res.send(entity);
+    return res.send(entity.toJson());
   }
 
   async getAll(req, res) {
@@ -26,7 +26,7 @@ class UserController {
 
     const entity = await _userService.update(id, body);
 
-    return res.send(entity);
+    return res.send(entity.toJson());
   }
 
   async delete(req, res) {

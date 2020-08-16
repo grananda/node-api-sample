@@ -1,12 +1,10 @@
 const BaseService = require("./base.service");
-let _commentRepository = null,
-  _idesRepository = null;
+let _ideaRepository = null;
 
 class CommentService extends BaseService {
   constructor({ CommentRepository, IdeaRepository }) {
     super(CommentRepository);
-    _commentRepository = CommentRepository;
-    _idesRepository = IdeaRepository;
+    _ideaRepository = IdeaRepository;
   }
 
   async getIdeaComments(id) {
@@ -33,7 +31,7 @@ class CommentService extends BaseService {
     return comments;
   }
 
-  async createComment(comment, ideaId) {
+  async createComment(comment, ideaId, userId) {
     if (!ideaId) {
       const error = new Error();
       error.status = 400;
@@ -42,7 +40,15 @@ class CommentService extends BaseService {
       throw error;
     }
 
-    const idea = await _ideaRepository.get(id);
+    if (!userId) {
+      const error = new Error();
+      error.status = 400;
+      error.message = "User ID must be provided";
+
+      throw error;
+    }
+
+    const idea = await _ideaRepository.get(ideaId);
 
     if (!idea) {
       const error = new Error();
@@ -52,10 +58,13 @@ class CommentService extends BaseService {
       throw error;
     }
 
-    const createdComment = await _commentRepository.create(comment);
-    idea.comment.push(createdComment);
+    const createdComment = await this.repository.create({
+      ...comment,
+      author: userId,
+    });
+    idea.comments.push(createdComment);
 
-    return await _idesRepository.update(ideaId, { comments: idea.comments });
+    return await _ideaRepository.update(ideaId, { comments: idea.comments });
   }
 }
 
