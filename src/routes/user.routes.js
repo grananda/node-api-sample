@@ -12,11 +12,11 @@ module.exports = function ({ UserController }) {
   router.get("/:id", UserController.get);
   router.get(
     "/",
-    [AuthMiddleWare, ParseIntMiddleware, CacheMiddleware(CACHE_TIME.ONE_HOUR)],
+    [ParseIntMiddleware, CacheMiddleware(CACHE_TIME.ONE_HOUR)],
     UserController.getAll
   );
-  router.patch("/:id", UserController.update);
-  router.delete("/:id", UserController.delete);
+  router.patch("/:id", AuthMiddleWare, UserController.update);
+  router.delete("/:id", AuthMiddleWare, UserController.delete);
 
   return router;
 };

@@ -104,7 +104,7 @@
           {
             "in": "header",
             "name": "Authorization",
-            "description": "Authorization header fOr JWT",
+            "description": "Authorization header for JWT",
             "required": true,
             "type": "string"
           }
